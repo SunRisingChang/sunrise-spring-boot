@@ -1,0 +1,38 @@
+{
+	"version" : "1.1",
+	"vgroups" : [
+		{
+			"vgroup_name" : "Nav",
+			"vgroup_type" : "CONNECTION",
+			"items" : [
+				{
+					"name" : "Nav_Mysql",
+					"type" : "CONNECTION",
+					"server_type" : "MYSQL"
+				},
+				{
+					"name" : "VMware_Oracle",
+					"type" : "CONNECTION",
+					"server_type" : "ORA"
+				}
+			]
+		},
+		{
+			"vgroup_name" : "ETONG",
+			"vgroup_type" : "CONNECTION",
+			"items" : [
+				{
+					"name" : "ETONG_Mysql",
+					"type" : "CONNECTION",
+					"server_type" : "MYSQL"
+				},
+				{
+					"name" : "ETONG_Oracle",
+					"type" : "CONNECTION",
+					"server_type" : "ORA"
+				}
+			]
+		}
+	],
+	"connections" : [ ]
+}
