@@ -25,7 +25,7 @@
 
 ## 简介
 
-[spring-boot-sunrise](https://gitee.com/sunrise-chang/spring-boot-sunrise) 是 SUNRISE 系列项目的前端和[electron-vue-sunrise](https://gitee.com/sunrise-chang/electron-vue-sunrise)是姊妹项目，该项目是一个前端后台解决方案，它基于 [spring boot](https://spring.io/projects/spring-boot/) 实现。它使用了最新的技术栈，内置了权限验证，统一异常处理，交互日志记录等，提炼了典型的业务模型，它可以帮助你快速搭建企业级中后台产品原型。相信不管你的需求是什么，本项目都能帮助到你。
+_sunrise-spring-boot_ [[Gitee]](https://gitee.com/sunrise-chang/sunrise-spring-boot) [[GitHub]](https://github.com/SunRisingChang/sunrise-spring-boot) 是 _SUNRISE_ 系列项目的前端和 _sunrise-electron-vue_ [[Gitee]](https://gitee.com/sunrise-chang/sunrise-electron-vue) [[GitHub]](https://github.com/SunRisingChang/sunrise-electron-vue) 是姊妹项目，该项目是一个前端后台解决方案，它基于 [spring boot](https://spring.io/projects/spring-boot/) 实现。它使用了最新的技术栈，内置了权限验证，统一异常处理，交互日志记录等，提炼了典型的业务模型，它可以帮助你快速搭建企业级中后台产品原型。相信不管你的需求是什么，本项目都能帮助到你。
 
 ## 活动圈
 
@@ -38,7 +38,7 @@
 
 ## 功能
 
-针对[electron-vue-sunrise](https://gitee.com/sunrise-chang/electron-vue-sunrise)项目的功能接口实现
+针对 _sunrise-electron-vue_ [[Gitee]](https://gitee.com/sunrise-chang/sunrise-electron-vue) [[GitHub]](https://github.com/SunRisingChang/sunrise-electron-vue) 项目的功能接口实现
 
 ```bash
 - ResponseBodyAdvice 返回统一的服务器响应格式
