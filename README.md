@@ -106,6 +106,11 @@ spring-boot-sunrise-console
 
 ```
 
+## 注意事项
+
+> 1、this.getClass().getResourceAsStream("xxx.sql") 为空
+> 本项目由 eclipse 开发，因 IDEA 的特殊性需进行额外的设置才可获取到静态文件，[参考地址](https://blog.csdn.net/LuuvyJune/article/details/81904662)。
+
 ## 赞助商
 
 成为赞助商并在 GitHub 上的 README 上获取您的徽标，并附上指向您网站的链接。
