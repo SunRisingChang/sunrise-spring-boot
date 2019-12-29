@@ -128,7 +128,6 @@ public class DictService extends BaseService {
 	@Transactional
 	@LocalCache(key = "'" + SystemConst.DICT_CACHE_PREFIX + "'+#groupKey")
 	public List<SysDictItem> getSysDictItemByGroupKey(String groupKey) {
-		System.out.println("111111111111");
 		return dictDao.getSysDictItemByGroupKey(groupKey);
 	}
 
