@@ -176,4 +176,22 @@ public class RequestUtils {
 		}
 		return ipAddress;
 	}
+
+	/**
+	 * 判断请求是否是长连接
+	 * 
+	 * @author Sun Rising
+	 * @date 2020.04.28 06:56:16
+	 * @param request
+	 * @return
+	 *
+	 */
+	public static boolean isWebsocket(HttpServletRequest request) {
+		Map<String, String> headersInfo = RequestUtils.getHeadersInfo(request);
+		String upgrade = headersInfo.get("Upgrade");
+		if (upgrade != null && "websocket".equals(upgrade)) {
+			return true;
+		}
+		return false;
+	}
 }

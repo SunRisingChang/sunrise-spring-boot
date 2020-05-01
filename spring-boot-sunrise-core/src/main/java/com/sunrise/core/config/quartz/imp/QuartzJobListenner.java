@@ -44,7 +44,7 @@ public class QuartzJobListenner implements JobListener {
 	 */
 	@Override
 	public void jobToBeExecuted(JobExecutionContext context) {
-		context.put(JOB_CURR_TIME, System.currentTimeMillis());
+		context.put(JOB_CURR_TIME, CommonUtils.getmicTime());
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class QuartzJobListenner implements JobListener {
 		logQuartz.setQtzGroup(jobKey.getGroup());
 		logQuartz.setLogLeve(LOG_LEVE);
 		logQuartz.setStartTime((Long) context.get(JOB_CURR_TIME));
-		logQuartz.setProcTime(System.currentTimeMillis() - (Long) context.get(JOB_CURR_TIME));
+		logQuartz.setProcTime(CommonUtils.getmicTime() - (Long) context.get(JOB_CURR_TIME));
 		logQuartz.setSvrName(CommonUtils.getServerName());
 		logQuartz.setSvrAddr(CommonUtils.getServerIP());
 		if (jobException != null) {

@@ -1,4 +1,4 @@
-package com.sunrise.config.digcer.form;
+package com.sunrise.core.digcer.form;
 
 import java.util.Date;
 

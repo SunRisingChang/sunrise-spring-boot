@@ -1,12 +1,15 @@
 package com.sunrise.core.config.websocket;
 
 import java.io.IOException;
+import javax.servlet.http.HttpSession;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import org.springframework.stereotype.Component;
+import com.sunrise.core.config.websocket.imp.GetHttpSessionConfigurator;
 import com.sunrise.core.config.websocket.imp.WebSoketService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,12 +20,15 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2018.12.27 02:10:49
  *
  */
-@ServerEndpoint("/socket/anon/systemMessage")
-@Component
 @Slf4j
+@Component
+@ServerEndpoint(value = "/socket/systemMessage", configurator = GetHttpSessionConfigurator.class)
 public class SysWebSocket {
 
-	private static final String key_prefix = "/socket/anon/systemMessage";
+	private static final String key_prefix = "/socket/systemMessage";
+
+	// 整个会话
+	private HttpSession httpSession;
 
 	/**
 	 * 链接建立成功的回调
@@ -33,11 +39,12 @@ public class SysWebSocket {
 	 *
 	 */
 	@OnOpen
-	public void onOpen(Session session) {
-		WebSoketService.putConnection(getKey(session.getId()), session);
+	public void onOpen(Session session, EndpointConfig config) {
+		httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+		WebSoketService.putConnection(getKey(httpSession.getId()), session);
 		try {
-			WebSoketService.sendMessage(getKey(session.getId()), "连接成功");
-			log.info("[websoket]连接成功");
+			WebSoketService.sendMessage(getKey(httpSession.getId()), "连接成功");
+			log.debug("[websoket]连接成功");
 		} catch (IOException e) {
 			log.error("[websoket]连接失败 - [" + e.getClass().getName() + "]-[" + this.getClass() + "]");
 		}
@@ -53,7 +60,7 @@ public class SysWebSocket {
 	 */
 	@OnClose
 	public void onClose(Session session) {
-		WebSoketService.removeConnection(getKey(session.getId()));
+		WebSoketService.removeConnection(getKey(httpSession.getId()));
 	}
 
 	/**
@@ -67,7 +74,7 @@ public class SysWebSocket {
 	 */
 	@OnError
 	public void onError(Session session, Throwable error) {
-		WebSoketService.removeConnection(getKey(session.getId()));
+		WebSoketService.removeConnection(getKey(httpSession.getId()));
 	}
 
 	/**
@@ -80,6 +87,6 @@ public class SysWebSocket {
 	 *
 	 */
 	public static String getKey(String sessionId) {
-		return key_prefix + sessionId;
+		return key_prefix + "?sessionId=" + sessionId;
 	}
 }

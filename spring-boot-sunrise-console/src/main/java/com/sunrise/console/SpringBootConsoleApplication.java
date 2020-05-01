@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 这个类要是不认识的话，劝你还是回去重头学习spring boot吧！
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @EnableCaching
+@EnableScheduling
 //扫描全部Jar中com.sunrise包下的配置类
 @ComponentScan(basePackages = { "com.sunrise" })
 public class SpringBootConsoleApplication {

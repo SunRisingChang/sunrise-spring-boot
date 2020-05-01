@@ -37,13 +37,14 @@ public class CustomFilter extends AccessControlFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		Subject subject = SecurityUtils.getSubject();
+		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		// 判断是否登录
 		if (!subject.isAuthenticated()) {
 			HandleData handleData = new HandleData();
 			handleData.setCode(ExceptionConst.SHIRO_CREDENTITALS.getCode());
 			handleData.setMessage(ExceptionConst.SHIRO_CREDENTITALS.getMessage());
 			ServiceResult serviceResult = new ServiceResult();
-			serviceResult.setPath(((HttpServletRequest) request).getRequestURI());
+			serviceResult.setPath(httpServletRequest.getRequestURI());
 			serviceResult.setTimestamp(System.currentTimeMillis());
 			serviceResult.setStat(ExceptionConst.HTTP_OK.getCode());
 			serviceResult.setMessage(ExceptionConst.HTTP_OK.getMessage());

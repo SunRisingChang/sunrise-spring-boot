@@ -16,6 +16,8 @@ import com.sunrise.core.daos.usrm.UserDao;
 import com.sunrise.core.entitys.SysUser;
 import com.sunrise.core.entitys.SysUserInfo;
 import com.sunrise.core.entitys.SysUserRole;
+import com.sunrise.core.utils.CommonUtils;
+import com.sunrise.core.utils.EncodeUtils;
 import com.sunrise.core.utils.page.entitys.PageInfo;
 
 /**
@@ -63,18 +65,35 @@ public class UserService extends BaseService {
 	 */
 	@Transactional
 	public void saveSysUser(UserFormBean userFormBean) throws Exception {
+		// 判断用户名是否重复
+		SysUser _sysUser = userDao.getSysUserByName(userFormBean.getAcName());
+		if (_sysUser != null && StringUtils.isNotBlank(userFormBean.getUuid())) {
+			if (!_sysUser.getUuid().equals(userFormBean.getUuid())) {
+				throw new CustomRuntimeException("重复的用户名!");
+			}
+		}
 		SysUser sysUser = new SysUser();
 		SysUserInfo sysUserInfo = new SysUserInfo();
 		BeanUtils.copyProperties(sysUser, userFormBean);
 		BeanUtils.copyProperties(sysUserInfo, userFormBean);
 		if (StringUtils.isNotBlank(userFormBean.getUuid())) {
+			// 新建后的用户不允许修改密码
+			SysUser dbSysUser = userDao.getEntityManager().find(SysUser.class, userFormBean.getUuid());
+			sysUser.setAcPwd(dbSysUser.getAcPwd());
 			userDao.mergeAutoWriteMsg(sysUser);
 			SysUserInfo _sysUserInfo = userDao.getSysUserInfoByUserUuid(sysUser.getUuid());
 			sysUserInfo.setUserUuid(sysUser.getUuid());
 			sysUserInfo.setUuid(_sysUserInfo.getUuid());
 			userDao.mergeAutoWriteMsg(sysUserInfo);
 		} else {
+			// 使用MD5(微秒数)当作盐
+			sysUser.setEncSalt(EncodeUtils.MD5(CommonUtils.getmicTime().toString()));
 			userDao.persistAutoWriteMsg(sysUser);
+			// 设置初始密码
+			String _acPwd = StringUtils.isNotBlank(sysUser.getAcPwd()) ? sysUser.getAcPwd() : EncodeUtils.createPasswd(SystemConst.DEFAULT_PASSWD);
+			String acPwd = EncodeUtils.MD5(_acPwd + sysUser.getEncSalt() + sysUser.getUuid());
+			sysUser.setAcPwd(acPwd);
+			userDao.mergeAutoWriteMsg(sysUser);
 			sysUserInfo.setUserUuid(sysUser.getUuid());
 			sysUserInfo.setUuid(null);
 			userDao.persistAutoWriteMsg(sysUserInfo);
@@ -172,6 +191,26 @@ public class UserService extends BaseService {
 				sysUser.setAcStat(SystemConst.ACCOUNT_DEST);
 				userDao.mergeAutoWriteMsg(sysUser);
 			}
+		}
+	}
+
+	/**
+	 * 重置用户密码
+	 * 
+	 * @author Sun Rising
+	 * @date 2020.04.29 05:26:00
+	 * @param uuids
+	 * @throws Exception
+	 *
+	 */
+	@Transactional
+	public void pwdRest(String[] uuids) throws Exception {
+		for (String uuid : uuids) {
+			SysUser sysUser = userDao.getEntityManager().find(SysUser.class, uuid);
+			String _acPwd = EncodeUtils.createPasswd(SystemConst.DEFAULT_PASSWD);
+			String acPwd = EncodeUtils.MD5(_acPwd + sysUser.getEncSalt() + sysUser.getUuid());
+			sysUser.setAcPwd(acPwd);
+			userDao.mergeAutoWriteMsg(sysUser);
 		}
 	}
 }

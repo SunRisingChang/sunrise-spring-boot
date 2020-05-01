@@ -1,4 +1,4 @@
-package com.sunrise.config.encode;
+package com.sunrise.core.encode;
 
 import org.apache.commons.codec.binary.Base64;
 

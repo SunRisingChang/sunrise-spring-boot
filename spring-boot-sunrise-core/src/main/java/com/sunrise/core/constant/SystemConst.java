@@ -29,4 +29,7 @@ public class SystemConst {
 
 	// 字典缓存前缀
 	public static final String DICT_CACHE_PREFIX = "dict_";
+
+	// 默认的密码
+	public static final String DEFAULT_PASSWD = "12345678";
 }

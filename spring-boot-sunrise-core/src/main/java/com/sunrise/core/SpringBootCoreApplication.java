@@ -3,6 +3,7 @@ package com.sunrise.core;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 这个类要是不认识的话，劝你还是回去重头学习spring boot吧！
@@ -13,6 +14,7 @@ import org.springframework.cache.annotation.EnableCaching;
  */
 @SpringBootApplication
 @EnableCaching
+@EnableScheduling
 public class SpringBootCoreApplication {
 
 	/**

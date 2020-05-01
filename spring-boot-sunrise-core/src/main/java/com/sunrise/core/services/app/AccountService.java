@@ -35,14 +35,17 @@ import com.sunrise.core.entitys.SysRolePerm;
 import com.sunrise.core.entitys.SysUser;
 import com.sunrise.core.entitys.SysUserInfo;
 import com.sunrise.core.entitys.SysUserRole;
+import com.sunrise.core.utils.EncodeUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 账户管理
  * 
- * @author Sun_Rising
- * @date 2018.12.27 02:19:29
+ * @author Sun Rising
+ * @date 2020.05.01 11:34:48
  *
  */
+@Slf4j
 @Service
 public class AccountService extends BaseService {
 
@@ -68,14 +71,14 @@ public class AccountService extends BaseService {
 	 *
 	 */
 	public SysUser getSysUserByName(String userName) {
-		return accountDao.getSysUserByName(userName);
+		return userDao.getSysUserByName(userName);
 	}
 
 	/**
 	 * 系统登录
 	 * 
-	 * @author Sun_Rising
-	 * @date 2018.12.27 02:20:23
+	 * @author Sun Rising
+	 * @date 2020.05.01 11:35:01
 	 * @param accountFormBean
 	 * @return
 	 * @throws Exception
@@ -217,7 +220,7 @@ public class AccountService extends BaseService {
 	 */
 	@Transactional
 	public void accountLock(String userName) {
-		SysUser sysUser = accountDao.getSysUserByName(userName);
+		SysUser sysUser = userDao.getSysUserByName(userName);
 		if (sysUser != null) {
 			sysUser.setAcStat(SystemConst.ACCOUNT_LOCK);
 			accountDao.getEntityManager().merge(sysUser);
@@ -278,11 +281,31 @@ public class AccountService extends BaseService {
 	public void changePwd(String oldPwd, String newPwd) throws Exception {
 		Subject subject = SecurityUtils.getSubject();
 		SysUser sysUser = (SysUser) subject.getPrincipal();
-		if (!oldPwd.equals(sysUser.getAcPwd())) {
+		String _oldPwd = EncodeUtils.MD5(oldPwd + sysUser.getEncSalt() + sysUser.getUuid());
+		if (!_oldPwd.equals(sysUser.getAcPwd())) {
 			throw new CustomRuntimeException(ExceptionConst.SHIRO_INCORRECT_CREDENTIALS.getCode(), ExceptionConst.SHIRO_INCORRECT_CREDENTIALS.getMessage());
 		}
 		SysUser _sysUser = accountDao.getEntityManager().find(SysUser.class, sysUser.getUuid());
-		_sysUser.setAcPwd(newPwd);
+		_sysUser.setAcPwd(EncodeUtils.MD5(newPwd + sysUser.getEncSalt() + sysUser.getUuid()));
 		accountDao.mergeAutoWriteMsg(_sysUser);
+	}
+
+	/**
+	 * 更新用户最后登录时间
+	 * 
+	 * @author Sun Rising
+	 * @date 2020.04.26 11:57:58
+	 * @param userName
+	 *
+	 */
+	@Transactional
+	public void updateLastLoginTime(String userName) {
+		try {
+			SysUser sysUser = getSysUserByName(userName);
+			sysUser.setLastLogDate(System.currentTimeMillis());
+			accountDao.getEntityManager().merge(sysUser);
+		} catch (Exception e) {
+			log.error("用户最后登录时间更新失败。");
+		}
 	}
 }

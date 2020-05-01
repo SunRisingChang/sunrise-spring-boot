@@ -218,4 +218,18 @@ public class CommonUtils {
 		}
 		return i;
 	}
+
+	/**
+	 * 获取微秒
+	 * 
+	 * @author Sun Rising
+	 * @date 2020.04.26 09:08:10
+	 * @return
+	 *
+	 */
+	public static Long getmicTime() {
+		Long cutime = System.currentTimeMillis() * 1000; // 微秒
+		Long nanoTime = System.nanoTime(); // 纳秒
+		return cutime + (nanoTime - nanoTime / 1000000 * 1000000) / 1000;
+	}
 }

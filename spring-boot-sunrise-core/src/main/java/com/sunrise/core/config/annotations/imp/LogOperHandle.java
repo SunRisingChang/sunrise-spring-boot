@@ -12,6 +12,7 @@ import com.sunrise.core.config.annotations.LogOper;
 import com.sunrise.core.constant.ExceptionConst;
 import com.sunrise.core.entitys.SysUser;
 import com.sunrise.core.services.logs.OperLogService;
+import com.sunrise.core.utils.CommonUtils;
 import com.sunrise.core.utils.RequestUtils;
 import com.sunrise.core.utils.ResponseUtils;
 import com.sunrise.core.utils.SpringWebUtils;
@@ -43,6 +44,7 @@ public class LogOperHandle {
 		HttpServletRequest httpServletRequest = SpringWebUtils.getHttpServletRequest();
 		SysUser sysUser = (SysUser) SecurityUtils.getSubject().getPrincipal();
 		long startTime = System.currentTimeMillis();
+		long startTmicTime = CommonUtils.getmicTime();
 		// ------------------ 获取需要的对象 结束 ---------------
 		// ------------------ 装配 开始 ----------------------
 		sysLogOper.setStartTime(startTime);
@@ -66,7 +68,7 @@ public class LogOperHandle {
 			sysLogOper.setRespDesc(ExceptionConst.HTTP_HANDLE_EXCE.getMessage());
 			sysLogOper.setExecInfo(e.getMessage());
 		}
-		sysLogOper.setProcTime(System.currentTimeMillis() - startTime);
+		sysLogOper.setProcTime(CommonUtils.getmicTime() - startTmicTime);
 		// ------------------ 装配 结束 ----------------------
 		operLogService.saveLogOper(sysLogOper);
 		if (throwable != null)

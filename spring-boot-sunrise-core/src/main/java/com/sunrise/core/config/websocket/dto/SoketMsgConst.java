@@ -13,7 +13,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SoketMsgConst {
-	DICT_CHANGE("101", "字典项修改");
+	DICT_CHANGE("101", "字典项修改"),
+	SESSION_EXPIRED("102", "会话过期");
 
 	private String type;
 

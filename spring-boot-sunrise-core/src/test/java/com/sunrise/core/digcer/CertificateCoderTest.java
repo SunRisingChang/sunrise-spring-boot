@@ -1,7 +1,4 @@
-/**
- * 2009-5-20
- */
-package com.sunrise.config.digcer;
+package com.sunrise.core.digcer;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -12,8 +9,9 @@ import org.junit.Test;
 /**
  * 证书校验
  * 
- * @author 梁栋
- * @version 1.0
+ * @author Sun Rising
+ * @date 2020.05.01 01:02:38
+ *
  */
 public class CertificateCoderTest {
 

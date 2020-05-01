@@ -7,6 +7,7 @@ import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.SaltedAuthenticationInfo;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -15,6 +16,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -24,8 +26,10 @@ import com.sunrise.core.constant.ExceptionConst;
 import com.sunrise.core.constant.SystemConst;
 import com.sunrise.core.entitys.SysUser;
 import com.sunrise.core.services.app.AccountService;
+import com.sunrise.core.utils.EncodeUtils;
 import com.sunrise.core.utils.KeyCreatUtils;
 import com.sunrise.core.utils.ThreadLocalUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * shiro登录令牌校验
@@ -34,6 +38,7 @@ import com.sunrise.core.utils.ThreadLocalUtils;
  * @date 2018.12.27 02:05:27
  *
  */
+@Slf4j
 public class CustomRealm extends AuthorizingRealm implements CredentialsMatcher {
 
 	@Autowired
@@ -87,7 +92,8 @@ public class CustomRealm extends AuthorizingRealm implements CredentialsMatcher 
 		 * 第一个参数：从数据库中获取的用户对象或用户名，可以通过SecurityUtils.getSubject().getPrincipal()获取
 		 * 第二个参数：从数据库中获取的用户对象密码 第三个参数[可选]：从数据库中获取的用户对象密码的盐 第四个参数：是哪个Realm处理的 之后将进行密码的验证
 		 */
-		return new SimpleAuthenticationInfo(sysUser, sysUser.getAcPwd(), super.getName());
+		ByteSource salt = ByteSource.Util.bytes(sysUser.getEncSalt() + sysUser.getUuid());
+		return new SimpleAuthenticationInfo(sysUser, sysUser.getAcPwd(), salt, super.getName());
 	}
 
 	/**
@@ -108,7 +114,13 @@ public class CustomRealm extends AuthorizingRealm implements CredentialsMatcher 
 		String webPwd = new String(usernamePasswordToken.getPassword());
 		// 数据库检出的密码
 		String dbPwd = info.getCredentials().toString();
-		boolean isOK = webPwd.equals(dbPwd);
+		// 加密盐(salt+uuid)
+		String encSalt = new String(((SaltedAuthenticationInfo) info).getCredentialsSalt().getBytes());
+		// MD5
+		String pwdMD5 = EncodeUtils.MD5(webPwd + encSalt);
+		log.debug("生成的密码 --> " + pwdMD5);
+		// 数据库检出盐
+		boolean isOK = pwdMD5.equals(dbPwd);
 		// -------------------- 密码校验 开始 -------------------
 		String currUserKey = KeyCreatUtils.getPrefixKeyBySession(usernamePasswordToken.getUsername());
 		// 是否开启计数
@@ -135,6 +147,7 @@ public class CustomRealm extends AuthorizingRealm implements CredentialsMatcher 
 		// -------------------- 密码校验 结束 -------------------
 		if (!isOK)
 			throw new IncorrectCredentialsException(ExceptionConst.SHIRO_INCORRECT_CREDENTIALS.getMessage());
+		accountService.updateLastLoginTime(usernamePasswordToken.getUsername());
 		return true;
 	}
 

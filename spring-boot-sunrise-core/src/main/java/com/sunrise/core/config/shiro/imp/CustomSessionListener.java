@@ -22,6 +22,7 @@ public class CustomSessionListener implements SessionListener {
 	 */
 	@Override
 	public void onStart(Session session) {
+		SessionService.putSession(session);
 	}
 
 	/**
@@ -34,6 +35,7 @@ public class CustomSessionListener implements SessionListener {
 	 */
 	@Override
 	public void onStop(Session session) {
+		SessionService.removeSession(session.getId().toString());
 	}
 
 	/**
@@ -46,5 +48,6 @@ public class CustomSessionListener implements SessionListener {
 	 */
 	@Override
 	public void onExpiration(Session session) {
+		SessionService.removeSession(session.getId().toString());
 	}
 }

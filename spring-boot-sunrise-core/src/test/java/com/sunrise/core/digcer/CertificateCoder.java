@@ -1,7 +1,4 @@
-/**
- * 2009-5-20
- */
-package com.sunrise.config.digcer;
+package com.sunrise.core.digcer;
 
 import java.io.FileInputStream;
 import java.security.KeyStore;
@@ -16,8 +13,9 @@ import javax.crypto.Cipher;
 /**
  * 证书组件
  * 
- * @author 梁栋
- * @version 1.0
+ * @author Sun Rising
+ * @date 2020.05.01 01:03:08
+ *
  */
 public abstract class CertificateCoder {
 

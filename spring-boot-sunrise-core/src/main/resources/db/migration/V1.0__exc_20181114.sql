@@ -71,7 +71,7 @@ CREATE TABLE `log_quartz` (
   `LOG_LEVE` varchar(2) DEFAULT NULL COMMENT '日记等级 1、系统记录 2、手动记录',
   `EXEC_INFO` varchar(1500) DEFAULT NULL COMMENT '异常信息',
   `START_TIME` decimal(24,0) DEFAULT NULL COMMENT '开始执行时间',
-  `PROC__TIME` decimal(24,0) DEFAULT NULL COMMENT '处理耗时',
+  `PROC_TIME` decimal(24,0) DEFAULT NULL COMMENT '处理耗时',
   PRIMARY KEY (`UUID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Quartz日志';
 
@@ -755,9 +755,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('402894816bda0c7b016bdb0c1ece0074', 'test', '11111111', '1', '', '402894816b91cffa016b9222c3db000f', null, 'admin', '1562748133070', 'admin', '1562748133070');
-INSERT INTO `sys_user` VALUES ('402894816bda0c7b016bdb0cdf680077', 'dev', '11111111', '1', '', '402894816b91cffa016b92240ce10010', null, 'admin', '1562748182375', 'admin', '1562748182375');
-INSERT INTO `sys_user` VALUES ('admin', 'admin', '11111111', '1', null, null, null, null, null, 'admin', '1562277320619');
+INSERT INTO `sys_user` VALUES ('admin', 'admin', '1fef8f79c5a8d7dc4bdee1f41c3dc746', '1', 'sunrise', null, null, null, null, 'admin', '1562277320619');
 
 -- ----------------------------
 -- Table structure for sys_user_info

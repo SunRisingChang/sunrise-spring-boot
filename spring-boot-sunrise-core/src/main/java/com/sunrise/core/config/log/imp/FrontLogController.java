@@ -80,7 +80,7 @@ public class FrontLogController {
 			msgBuffer.append(frontLogFormBean.toString());
 			FileUtils.writeByteArrayToFile(currFile, msgBuffer.toString().getBytes(), true);
 		} catch (Exception e) {
-			log.error("[FrontLog]记录失败," + e.getMessage());
+			log.debug("[FrontLog]记录失败," + e.getMessage());
 		}
 	}
 }

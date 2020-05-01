@@ -7,9 +7,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 import com.sunrise.core.base.BaseDao;
 import com.sunrise.core.controllers.usrm.form.UserFormBean;
+import com.sunrise.core.entitys.SysUser;
 import com.sunrise.core.entitys.SysUserInfo;
 import com.sunrise.core.entitys.SysUserRole;
 import com.sunrise.core.utils.page.entitys.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 用户管理
@@ -18,8 +20,30 @@ import com.sunrise.core.utils.page.entitys.PageInfo;
  * @date 2019.06.19 08:33:44
  *
  */
+@Slf4j
 @Repository
 public class UserDao extends BaseDao {
+
+	/**
+	 * 通过用户名获取用户
+	 * 
+	 * @author Sun_Rising
+	 * @date 2018.12.27 02:16:53
+	 * @param userName
+	 * @return 如果没有匹配到返回null,匹配到多个返回第一个并打印日志
+	 *
+	 */
+	public SysUser getSysUserByName(String acName) {
+		String jpql = "FROM SysUser WHERE acName=:acName";
+		TypedQuery<SysUser> query = getEntityManager().createQuery(jpql, SysUser.class);
+		query.setParameter("acName", acName);
+		List<SysUser> sysUsers = query.getResultList();
+		if (sysUsers.size() == 0)
+			return null;
+		if (sysUsers.size() > 1)
+			log.error("[Security]SysUser用户名重复，请DBA及时处理. -[" + this.getClass());
+		return sysUsers.get(0);
+	}
 
 	/**
 	 * 获取用户信息通过用户的uuid

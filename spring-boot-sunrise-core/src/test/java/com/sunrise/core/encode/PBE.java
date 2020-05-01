@@ -1,4 +1,4 @@
-package com.sunrise.config.encode;
+package com.sunrise.core.encode;
 
 import java.security.SecureRandom;
 import javax.crypto.Cipher;

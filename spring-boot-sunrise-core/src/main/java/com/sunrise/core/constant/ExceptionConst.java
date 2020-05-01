@@ -20,7 +20,7 @@ public enum ExceptionConst {
 	SHIRO_EXCESSIVE_ATTEMPTS(4014, "认证次数超过限制"),
 	SHIRO_LOCKED_ACCOUNT(4015, "账号被锁定"),
 	SHIRO_CONCURRENT_ACCESS(4016, "并发访问异常"),
-	SHIRO_DISABLED_ACCOUNT(4017, "禁用的账号"),
+	SHIRO_DISABLED_ACCOUNT(4017, "注销的账号"),
 	SHIRO_UNSUPPORTED_TOKEN(4018, "未知的Token"),
 	SHIRO_ACCOUNT(4019, "账户异常"),
 	HTTP_OK(200, "服务器已成功响应"),

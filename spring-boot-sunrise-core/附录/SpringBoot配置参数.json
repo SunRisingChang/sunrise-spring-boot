@@ -14,7 +14,8 @@ trace = false ＃启用跟踪日志。
 
 #logGING 
 logging.config = ＃日志配置文件的位置。例如，Logback的`classpath：logback.xml`。
-logging.exception-conversion-word =％wEx logging.path = ＃日志文件的位置。例如，`/ var / log`。
+logging.exception-conversion-word =％wEx 
+logging.path = ＃日志文件的位置。例如，`/ var / log`。
 logging.pattern.console = ＃用于输出到控制台的Appender模式。仅支持默认的Logback设置。
 logging.pattern.dateformat = yyyy-MM-dd HH：mm：ss.SSS ＃日志日期格式的Appender模式。仅支持默认的Logback设置。
 logging.pattern.file = ＃用于输出到文件的Appender模式。仅支持默认的Logback设置。
@@ -23,8 +24,10 @@ logging.register-shutdown-hook = false# Conversion word used when logging except
 logging.file= # Log file name (for instance, `myapp.log`). Names can be an exact location or relative to the current directory.
 logging.file.max-history=0 # Maximum of archive log files to keep. Only supported with the default logback setup.
 logging.file.max-size=10MB # Maximum log file size. Only supported with the default logback setup.
-logging.group.*= # Log groups to quickly change multiple loggers at the same time. For instance, `logging.level.db=org.hibernate,org.springframework.jdbc`.
-logging.level.*= # Log levels severity mapping. For instance, `logging.level.org.springframework=DEBUG`.
+logging.group.*= # Log groups to quickly change multiple loggers at the same time. For instance, `
+logging.level.db=org.hibernate,org.springframework.jdbc`.
+logging.level.*= # Log levels severity mapping. For instance, `
+logging.level.org.springframework=DEBUG`.
 
 
 

@@ -1,4 +1,4 @@
-package com.sunrise.config.digcer;
+package com.sunrise.core.digcer;
 
 import java.io.FileInputStream;
 import java.security.cert.CertificateFactory;

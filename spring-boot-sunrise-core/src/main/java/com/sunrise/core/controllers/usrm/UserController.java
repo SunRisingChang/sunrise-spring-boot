@@ -118,4 +118,11 @@ public class UserController extends BaseController {
 		if (uuids.length > 0)
 			userService.userDest(uuids);
 	}
+
+	@PutMapping("/pwdRest/{uuids}")
+	@LogOper(message = "用户密码重置")
+	public void pwdRest(@PathVariable("uuids") String[] uuids) throws Exception {
+		if (uuids.length > 0)
+			userService.pwdRest(uuids);
+	}
 }
