@@ -44,7 +44,7 @@ public class SysWebSocket {
 		WebSoketService.putConnection(getKey(httpSession.getId()), session);
 		try {
 			WebSoketService.sendMessage(getKey(httpSession.getId()), "连接成功");
-			log.debug("[websoket]连接成功");
+			log.debug("[websoket-" + httpSession.getId() + "]连接成功");
 		} catch (IOException e) {
 			log.error("[websoket]连接失败 - [" + e.getClass().getName() + "]-[" + this.getClass() + "]");
 		}
@@ -61,6 +61,7 @@ public class SysWebSocket {
 	@OnClose
 	public void onClose(Session session) {
 		WebSoketService.removeConnection(getKey(httpSession.getId()));
+		log.debug("[websoket-" + httpSession.getId() + "]关闭连接");
 	}
 
 	/**
@@ -75,6 +76,9 @@ public class SysWebSocket {
 	@OnError
 	public void onError(Session session, Throwable error) {
 		WebSoketService.removeConnection(getKey(httpSession.getId()));
+		log.debug("[websoket-" + httpSession.getId() + "]发生错误");
+		log.debug(System.currentTimeMillis() + "");
+		error.printStackTrace();
 	}
 
 	/**

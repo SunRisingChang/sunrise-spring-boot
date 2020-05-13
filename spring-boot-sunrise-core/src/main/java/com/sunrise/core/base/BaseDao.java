@@ -16,11 +16,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import com.sunrise.core.config.ehcache.imp.CacheService;
 import com.sunrise.core.entitys.SysUser;
+import com.sunrise.core.utils.CommonUtils;
 import com.sunrise.core.utils.FreemarkerUtils;
 import com.sunrise.core.utils.SpringWebUtils;
 import com.sunrise.core.utils.page.entitys.PageInfo;
 import com.sunrise.core.utils.page.factory.handle.DataBaseHandle;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 所有的Dao层都要继承该类
@@ -29,6 +31,7 @@ import lombok.Getter;
  * @date 2018.12.27 01:47:10
  *
  */
+@Slf4j
 @Getter
 public class BaseDao {
 
@@ -77,6 +80,7 @@ public class BaseDao {
 	 *
 	 */
 	public <T> PageInfo sqlPage(final String sql, RowMapper<T> rowMapper) {
+		log.debug(CommonUtils.stringFlat(sql));
 		// 数据页封装类
 		PageInfo pageInfo = new PageInfo();
 		// 先装配数据页封装类，pageUtils.getPageSql会读取

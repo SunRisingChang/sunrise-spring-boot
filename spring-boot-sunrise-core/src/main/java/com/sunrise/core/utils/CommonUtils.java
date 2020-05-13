@@ -232,4 +232,17 @@ public class CommonUtils {
 		Long nanoTime = System.nanoTime(); // 纳秒
 		return cutime + (nanoTime - nanoTime / 1000000 * 1000000) / 1000;
 	}
+
+	/**
+	 * 字符串扁平化
+	 * 
+	 * @author Sun Rising
+	 * @date 2020.05.03 10:22:48
+	 *
+	 */
+	public static String stringFlat(String string) {
+		string = string.replaceAll("\\r\\n", " ");
+		string = string.replaceAll("\\s+", " ");
+		return string;
+	}
 }

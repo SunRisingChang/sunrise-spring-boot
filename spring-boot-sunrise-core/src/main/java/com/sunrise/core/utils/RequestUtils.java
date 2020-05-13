@@ -2,6 +2,7 @@ package com.sunrise.core.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +80,12 @@ public class RequestUtils {
 	public static Map<String, Object> getUrlParams(HttpServletRequest request) {
 		Map<String, Object> urlMaps = new HashMap<String, Object>();
 		if (request.getMethod().equalsIgnoreCase("GET")) {
-			String urlParamStr = request.getQueryString();
+			String urlParamStr;
+			try {
+				urlParamStr = URLDecoder.decode(request.getQueryString(), "utf-8");
+			} catch (Exception e) {
+				urlParamStr = request.getQueryString();
+			}
 			if (StringUtils.isNotBlank(urlParamStr)) {
 				String[] params = urlParamStr.split("&");
 				for (String p : params) {

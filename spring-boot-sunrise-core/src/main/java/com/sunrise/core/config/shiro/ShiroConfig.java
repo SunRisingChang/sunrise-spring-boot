@@ -115,7 +115,7 @@ public class ShiroConfig {
 	public DefaultWebSessionManager sessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		// 设置session过期时间3600s-3600000L
-		sessionManager.setGlobalSessionTimeout(3600000L);
+		sessionManager.setGlobalSessionTimeout(1800000L);
 		sessionManager.setSessionListeners(sessionListeners());
 		return sessionManager;
 	}

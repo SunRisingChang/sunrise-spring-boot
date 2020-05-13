@@ -76,7 +76,7 @@ public class QuartzJobListenner implements JobListener {
 		logQuartz.setQtzName(jobKey.getName());
 		logQuartz.setQtzGroup(jobKey.getGroup());
 		logQuartz.setLogLeve(LOG_LEVE);
-		logQuartz.setStartTime((Long) context.get(JOB_CURR_TIME));
+		logQuartz.setStartTime((Long) context.get(JOB_CURR_TIME) / 1000);
 		logQuartz.setProcTime(CommonUtils.getmicTime() - (Long) context.get(JOB_CURR_TIME));
 		logQuartz.setSvrName(CommonUtils.getServerName());
 		logQuartz.setSvrAddr(CommonUtils.getServerIP());
