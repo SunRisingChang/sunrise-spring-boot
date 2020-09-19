@@ -14,6 +14,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
@@ -43,6 +45,32 @@ public class SpringWebConfig implements WebMvcConfigurer {
 	private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
 	/**
+	 * 欢迎页
+	 * 
+	 * @author Sun Rising
+	 * @date 2020.09.19 10:08:01
+	 * @param registry
+	 *
+	 */
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("forward:/front/index.html");
+	}
+
+	/**
+	 * 配置静态资源
+	 * 
+	 * @author Sun Rising
+	 * @date 2020.09.19 10:28:37
+	 * @param registry
+	 *
+	 */
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/front/**").addResourceLocations("file:./front/", "classpath:/front/");
+	}
+
+	/**
 	 * 配置跨域
 	 * 
 	 * @author Sun_Rising
@@ -70,8 +98,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
 	public FilterRegistrationBean<CorsFilter> corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", buildConfig());
-		FilterRegistrationBean<CorsFilter> filterRegistrationBean = new FilterRegistrationBean<CorsFilter>(
-				new CorsFilter(source));
+		FilterRegistrationBean<CorsFilter> filterRegistrationBean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(source));
 		filterRegistrationBean.setOrder(0);// 设置监听器的优先级
 		return filterRegistrationBean;
 	}
@@ -115,8 +142,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
 				break;
 			}
 		}
-		PostEntityHandlerMethodArgumentResolver postEntityHandlerMethodArgumentResolver = new PostEntityHandlerMethodArgumentResolver(
-				requestResponseBodyMethodProcessor, servletModelAttributeMethodProcessor);
+		PostEntityHandlerMethodArgumentResolver postEntityHandlerMethodArgumentResolver = new PostEntityHandlerMethodArgumentResolver(requestResponseBodyMethodProcessor, servletModelAttributeMethodProcessor);
 		List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<>(argumentResolvers.size() + 1);
 		newResolvers.add(postEntityHandlerMethodArgumentResolver);
 		newResolvers.addAll(argumentResolvers);
