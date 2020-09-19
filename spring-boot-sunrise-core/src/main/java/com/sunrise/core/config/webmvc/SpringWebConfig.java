@@ -54,7 +54,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
 	 */
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("forward:/front/index.html");
+		registry.addViewController("/").setViewName("redirect:/front/index.html");
 	}
 
 	/**
