@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableCaching
 @EnableScheduling
-//扫描全部Jar中com.sunrise包下的配置类
+//扫描全部Jar中com.sunrise包下的注解
 @ComponentScan(basePackages = { "com.sunrise" })
 public class SpringBootConsoleApplication {
 

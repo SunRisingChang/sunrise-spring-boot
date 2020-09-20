@@ -22,4 +22,18 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- 默认使用 repackage 打包后会生成两个jar文件,**.original可依赖不可运行;另一个不可被依赖可运行。 -->
+					<!-- 可执行Jar包后缀 -->
+					<classifier>exec</classifier>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
