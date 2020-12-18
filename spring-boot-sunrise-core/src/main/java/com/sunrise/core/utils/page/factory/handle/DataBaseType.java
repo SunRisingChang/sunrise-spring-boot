@@ -13,7 +13,7 @@ public enum DataBaseType {
 	DB2("Db2", "com.sunrise.core.utils.page.factory.handle.imp.Db2Handle"),
 	HSQLDB("Hsqldb", "com.sunrise.core.utils.page.factory.handle.imp.HsqldbHandle"),
 	INFORMIX("Informix", "com.sunrise.core.utils.page.factory.handle.imp.InformixHandle"),
-	SQLSERVER("SqlServer", "com.sunrise.core.utils.page.factory.handle.imp.SqlServerHandle");
+	SQLSERVER("microsoft SQL Server", "com.sunrise.core.utils.page.factory.handle.imp.SqlServerHandle");
 
 	// key
 	private String key;

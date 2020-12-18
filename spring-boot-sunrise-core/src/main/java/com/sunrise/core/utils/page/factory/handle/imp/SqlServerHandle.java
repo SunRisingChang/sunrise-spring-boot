@@ -19,7 +19,7 @@ public class SqlServerHandle implements DataBaseHandle {
 		// 获取每页数据数
 		int pageSize = page.getPageSize();
 		// 起始行
-		int startRow = currPageNum * pageSize;
+		int startRow = (currPageNum - 1) * pageSize;
 		StringBuilder sqlBuilder = new StringBuilder(sql.length() + 14);
 		sqlBuilder.append(sql);
 		sqlBuilder.append(" OFFSET ");
