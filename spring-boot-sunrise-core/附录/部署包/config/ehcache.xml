@@ -1,0 +1,30 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xmlns='http://www.ehcache.org/v3'
+	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+	<!-- 缓存到磁盘使用的目录 -->
+	<!-- <persistence directory="c:\ehcache" /> -->
+
+	<!-- 配置模板 -->
+	<cache-template name="defaultTemplate">
+		<!--指定key的类型，@Cacheable 指定的key类型 -->
+		<key-type>java.lang.String</key-type>
+		<!--指定返回类型，也就是方法返回的数据类型,默认java.lang.Object -->
+		<value-type>java.lang.Object</value-type>
+		<!-- 指定缓存的过期策略，tti,ttil,none。以及他们的单位时，分，秒，日 这里的配置表示，在缓存超过1H后没使用过，即删除 -->
+		<expiry>
+			<tti unit="hours">1</tti>
+		</expiry>
+		<!-- 指定缓存的缓存位置，可以指定堆内存，堆外内存，磁盘，以及他们最大使用的空间 这里配置表示仅仅使用磁盘缓存 -->
+		<resources>
+			<heap unit="entries">2000</heap>
+			<offheap unit="MB">20</offheap>
+			<!-- <disk unit="GB" persistent="true">10</disk> -->
+		</resources>
+	</cache-template>
+
+	<!-- 定义一个缓存仓库，alias也就是 @Cacheable 的 cacheNames 属性 -->
+	<cache alias="localCache" uses-template="defaultTemplate">
+
+	</cache>
+
+</config>
