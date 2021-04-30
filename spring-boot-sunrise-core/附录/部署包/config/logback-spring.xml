@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- TRACE < DEBUG < INFO < WARN < ERROR -->
+<configuration>
+	<!-- 上下文名称 -->
+	<contextName>sunrise</contextName>
+	<!-- 日志存放地址 -->
+	<property name="LOG_PATH" value="./logs" />
+	<!-- 日志输出格式 -->
+	<property name="CONSOLE_PATTERN" value="[%p][%d{yyyy-MM-dd HH:mm:ss}][%t][%C{3}.%M\\(line:%L\\)]:> %m%n" />
+	
+	<!-- 输出日志格式 -->
+	<appender name="all_console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>${CONSOLE_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 错误日志文件 -->
+	<appender name="all_error_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<File>${LOG_PATH}/all_error.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/all_error.%i.log</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>10MB</MaxFileSize>
+		</triggeringPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>${CONSOLE_PATTERN}</Pattern>
+		</layout>
+	</appender>
+	
+	<!-- 其它信息日志文件 -->
+	<appender name="all_info_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<File>${LOG_PATH}/all_info.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/all_info.%i.log</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>10MB</MaxFileSize>
+		</triggeringPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>${CONSOLE_PATTERN}</Pattern>
+		</layout>
+	</appender>
+	
+	<!-- 输出根包下日志 -->
+	<root level="INFO" >
+		<appender-ref ref="all_console" />
+		<appender-ref ref="all_info_file" />
+		<appender-ref ref="all_error_file" />
+	</root>
+	
+</configuration>
